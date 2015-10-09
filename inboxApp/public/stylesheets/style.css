@@ -16,6 +16,8 @@ button.btn.btn-default.navbar-left {
   margin-top: 7px;
 }
 
-
+.selected {
+  font-weight: normal;
+}
 
 
