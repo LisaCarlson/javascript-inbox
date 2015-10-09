@@ -1,5 +1,88 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    nav.navbar.navbar-default
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          form.navbar-form.navbar-left
+            .checkbox.navbar-btn
+              input(type='checkbox')
+          ul.nav.navbar-nav
+            button.btn.btn-default.navbar-left(type='button' style="margin-top: 7px; margin-right: 7px;") Mark As Read
+            button.btn.btn-default.navbar-left(type='button' style="margin-top: 7px;") Mark As Unread
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                | Apply Label 
+                span.caret
+              ul.dropdown-menu
+                li
+                  a(href='#') Action
+                li
+                  a(href='#') Another action
+                li
+                  a(href='#') Something else here
+                li.divider(role='separator')
+                li
+                  a(href='#') Separated link
+                li.divider(role='separator')
+                li
+                  a(href='#') One more separated link
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                | Remove Label 
+                span.caret
+              ul.dropdown-menu
+                li
+                  a(href='#') Action
+                li
+                  a(href='#') Another action
+                li
+                  a(href='#') Something else here
+                li.divider(role='separator')
+                li
+                  a(href='#') Separated link
+                li.divider(role='separator')
+                li
+                  a(href='#') One more separated link
+            button.btn.btn-default.navbar-left(type='button' style="margin-top: 7px;")
+              i(class= 'glyphicon glyphicon-trash')
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='#')
+                span(class="badge") 42
+                |   unread messages
+    table.table
+      tr
+        td(style="width: 30px;")
+          input(type="checkbox")  
+        td(style="width: 30px;") 
+          i(class="fa fa-star-o")
+        td(class='message') message message message message message message message message message message message message message message message          
+      tr
+        td
+          input(type="checkbox")
+        td
+          i(class="fa fa-star-o")
+        td message message message message message message message message message message message message message message message 
+      tr
+        td 
+          input(type="checkbox")
+        td
+          i(class="fa fa-star-o")
+        td message message message message message message message message message message message message message message message 
+
+
+
+
+
+
+
+    
