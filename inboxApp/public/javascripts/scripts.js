@@ -40,19 +40,32 @@ $( document ).ready(function() {
   });
 
   $('#read-button').on('click', function() {
-    var $readMessages = $("input.message-checkbox[type=checkbox]:checked");
-    $readMessages.each(function() {
+    var $selected = $("input.message-checkbox[type=checkbox]:checked");
+    $selected.each(function() {
       $(this).closest('.message').removeClass('unread').addClass('read');
       unreadMessages -= 1;
     });
     messageNumCheck();
-    // $('#message-num').html(unreadMessages);
-    $readMessages.prop('checked', false);
+    $selected.prop('checked', false);
+  });
+  $('#unread-button').on('click', function() {
+    var $selected = $("input.message-checkbox[type=checkbox]:checked");
+    $selected.each(function() {
+      //figure out unread ++ issue
+        $(this).closest('.message').removeClass('read').addClass('unread');
+        unreadMessages += 1;
+    });
+    messageNumCheck();
+    $selected.prop('checked', false);
   });
 
 function messageNumCheck() {
   if (unreadMessages === 1) {
     $('#message-num').closest('a').html('<span id="message-num" class="badge">1</span>' + '  unread message');
+  }
+  else if (unreadMessages === 0 || unreadMessages > 1 ) {
+    $('#message-num').closest('a').html('<span id="message-num" class="badge">' + unreadMessages + '</span>' + '  unread messages');
+
   }
   $('#message-num').html(unreadMessages);
 }
