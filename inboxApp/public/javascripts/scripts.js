@@ -1,6 +1,13 @@
 $( document ).ready(function() {
+  var unreadMessages = 0;
+  console.log(unreadMessages);
   $('button').prop('disabled', true);
-
+  $('.message').each(function(index) {
+    $(this).addClass('unread');
+    unreadMessages += 1;
+  });
+  messageNumCheck();
+  // $('#message-num').html(unreadMessages);
   $( "#multiselect" ).on( "click", function(){    
     
     $(".message").toggleClass('selected');
@@ -19,7 +26,7 @@ $( document ).ready(function() {
   });
 
   $('input[type=checkbox]').on('click', function() { 
-    $(this).closest('.message').toggleClass('selected'); 
+    $(this).closest('.message').removeClass('unread').toggleClass('selected'); 
     runCheck();  
   });
 
@@ -32,12 +39,28 @@ $( document ).ready(function() {
     }
   });
 
+  $('#read-button').on('click', function() {
+    var $readMessages = $("input.message-checkbox[type=checkbox]:checked");
+    $readMessages.each(function() {
+      $(this).closest('.message').removeClass('unread').addClass('read');
+      unreadMessages -= 1;
+    });
+    messageNumCheck();
+    // $('#message-num').html(unreadMessages);
+    $readMessages.prop('checked', false);
+  });
+
+function messageNumCheck() {
+  if (unreadMessages === 1) {
+    $('#message-num').closest('a').html('<span id="message-num" class="badge">1</span>' + '  unread message');
+  }
+  $('#message-num').html(unreadMessages);
+}
+
 
 function runCheck() {
   var $checkedBoxes = $("input[type=checkbox]:checked");
   var $messageCheckboxes = $('.message-checkbox');
-  console.log($messageCheckboxes.length)
-  console.log($("input.message-checkbox[type=checkbox]:checked").length)
 
     if ($checkedBoxes.length === $messageCheckboxes.length) {
       $( "#multiselect" ).prop("indeterminate", false).prop("checked", true);

@@ -17,8 +17,15 @@ button.btn.btn-default.navbar-left {
 }
 
 .selected {
-  font-weight: normal;
   background-color: #fff6cf;
 }
 
+.read {
+  font-weight: normal;
+  background-color: #D3D3D3;
+}
 
+.unread {
+  font-weight: bold;
+  background-color: #fff;
+}

@@ -14,8 +14,8 @@ block content
             .checkbox.navbar-btn
               input(type='checkbox' id='multiselect')
           ul.nav.navbar-nav
-            button.btn.btn-default.navbar-left(type='button' style="margin-top: 7px; margin-right: 7px;") Mark As Read
-            button.btn.btn-default.navbar-left(type='button' style="margin-top: 7px;") Mark As Unread
+            button.btn.btn-default.navbar-left(type='button' style="margin-top: 7px; margin-right: 7px;" id="read-button") Mark As Read
+            button.btn.btn-default.navbar-left(type='button' style="margin-top: 7px;" id="unread-button") Mark As Unread
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
             li.dropdown
@@ -57,7 +57,7 @@ block content
           ul.nav.navbar-nav.navbar-right
             li
               a(href='#')
-                span(class="badge") 42
+                span(class="badge" id="message-num") 
                 |   unread messages
     table.table
       tr.message
