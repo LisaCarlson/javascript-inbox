@@ -16,7 +16,7 @@ button.btn.btn-default.navbar-left {
   margin-top: 7px;
 }
 
-.selected {
+.selected, .selected.unread {
   background-color: #fff6cf;
 }
 
@@ -28,4 +28,12 @@ button.btn.btn-default.navbar-left {
 .unread {
   font-weight: bold;
   background-color: #fff;
+}
+
+/*tr.message{
+  border-bottom:1px solid gray;
+}*/
+
+table.table tr{
+  border-bottom:1px solid gray;
 }

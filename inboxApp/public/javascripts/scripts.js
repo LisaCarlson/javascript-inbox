@@ -1,13 +1,12 @@
 $( document ).ready(function() {
   var unreadMessages = 0;
-  console.log(unreadMessages);
+
   $('button').prop('disabled', true);
   $('.message').each(function(index) {
     $(this).addClass('unread');
     unreadMessages += 1;
   });
   messageNumCheck();
-  // $('#message-num').html(unreadMessages);
   $( "#multiselect" ).on( "click", function(){    
     
     $(".message").toggleClass('selected');
@@ -26,7 +25,7 @@ $( document ).ready(function() {
   });
 
   $('input[type=checkbox]').on('click', function() { 
-    $(this).closest('.message').removeClass('unread').toggleClass('selected'); 
+    $(this).closest('.message').toggleClass('selected'); 
     runCheck();  
   });
 
@@ -42,8 +41,12 @@ $( document ).ready(function() {
   $('#read-button').on('click', function() {
     var $selected = $("input.message-checkbox[type=checkbox]:checked");
     $selected.each(function() {
-      $(this).closest('.message').removeClass('unread').addClass('read');
-      unreadMessages -= 1;
+      var $message = $(this).closest('.message');
+      $message.removeClass('selected');
+      if (!$message.hasClass('read')) {    
+        $message.removeClass('unread').addClass('read');
+        unreadMessages -= 1;
+      }
     });
     messageNumCheck();
     $selected.prop('checked', false);
@@ -51,12 +54,25 @@ $( document ).ready(function() {
   $('#unread-button').on('click', function() {
     var $selected = $("input.message-checkbox[type=checkbox]:checked");
     $selected.each(function() {
-      //figure out unread ++ issue
-        $(this).closest('.message').removeClass('read').addClass('unread');
+      var $message = $(this).closest('.message');
+      $message.removeClass('selected');    
+      if (!$message.hasClass('unread')) {
+        $message.removeClass('read').addClass('unread');
         unreadMessages += 1;
+      }
     });
     messageNumCheck();
     $selected.prop('checked', false);
+  });
+
+  $('#delete').on('click', function(){
+    var $message = $("input.message-checkbox[type=checkbox]:checked").closest('.message');
+    $message.each(function(){
+      unreadMessages -= 1;
+      $message.remove();
+      messageNumCheck();
+    });
+
   });
 
 function messageNumCheck() {
@@ -65,16 +81,15 @@ function messageNumCheck() {
   }
   else if (unreadMessages === 0 || unreadMessages > 1 ) {
     $('#message-num').closest('a').html('<span id="message-num" class="badge">' + unreadMessages + '</span>' + '  unread messages');
-
+    $('button').prop('disabled', true);
   }
   $('#message-num').html(unreadMessages);
 }
 
 
 function runCheck() {
-  var $checkedBoxes = $("input[type=checkbox]:checked");
+  var $checkedBoxes = $("input.message-checkbox[type=checkbox]:checked");
   var $messageCheckboxes = $('.message-checkbox');
-
     if ($checkedBoxes.length === $messageCheckboxes.length) {
       $( "#multiselect" ).prop("indeterminate", false).prop("checked", true);
       $('button').prop('disabled', false);
