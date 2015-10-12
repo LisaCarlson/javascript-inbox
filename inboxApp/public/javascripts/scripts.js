@@ -1,7 +1,7 @@
 $( document ).ready(function() {
   var unreadMessages = 0;
-
   $('button').prop('disabled', true);
+  $('.dropdown').addClass('disabled');
   $('.message').each(function(index) {
     $(this).addClass('unread');
     unreadMessages += 1;
@@ -19,13 +19,14 @@ $( document ).ready(function() {
     } else {
       $('input[type=checkbox]').each(function() {
         $(this).prop( "checked", false);  
-        $('button').prop('disabled', true);  
+        $('button').prop('disabled', true);
+        $('.dropdown').addClass('disabled');  
       });
     }   
   });
 
   $('input[type=checkbox]').on('click', function() { 
-    $(this).closest('.message').toggleClass('selected'); 
+    $(this).closest('.message').toggleClass('selected');
     runCheck();  
   });
 
@@ -82,6 +83,8 @@ function messageNumCheck() {
   else if (unreadMessages === 0 || unreadMessages > 1 ) {
     $('#message-num').closest('a').html('<span id="message-num" class="badge">' + unreadMessages + '</span>' + '  unread messages');
     $('button').prop('disabled', true);
+    $('.dropdown').addClass('disabled');
+
   }
   $('#message-num').html(unreadMessages);
 }
@@ -93,17 +96,50 @@ function runCheck() {
     if ($checkedBoxes.length === $messageCheckboxes.length) {
       $( "#multiselect" ).prop("indeterminate", false).prop("checked", true);
       $('button').prop('disabled', false);
+      $('.dropdown').removeClass('disabled');
+
     }
     else if ($checkedBoxes.length === 0) {
       $( "#multiselect" ).prop("indeterminate", false);
       $( "#multiselect" ).prop("checked", false);
       $('button').prop('disabled', true);
+      $('.dropdown').addClass('disabled');
+
     } 
     else if ($("input.message-checkbox[type=checkbox]:checked").length < $messageCheckboxes.length) {
       $( "#multiselect" ).prop("indeterminate", true);
       $('button').prop('disabled', false);
+      $('.dropdown').removeClass('disabled');
+
     }        
 }
+
+//applying labels
+
+$('ul.dropdown-menu > li').on('click', function() {
+  var $selected = $("input.message-checkbox[type=checkbox]:checked");
+  var $message = $selected.closest('.message');
+  var label = $(this).find('a').text(); 
+  var labels = {
+    Dev: 'label-success',
+    Important: 'label-danger',
+    Personal: 'label-warning'
+  }
+  var keys = Object.keys(labels);
+  for (var x in keys) {
+    if (label == keys[x]) {
+      if (!$message.hasClass(label)) {
+        var $target = $selected.closest('td').next('td').next('td').prepend('<span class="label '+ labels[label] +' label-as-badge">'+ label +'</span>');
+      }
+    }
+  }
+  $selected.each(function() {
+    $message.addClass(label);
+    $message.removeClass('selected');    
+    $selected.prop('checked', false);
+  });
+});
+
 
 
 

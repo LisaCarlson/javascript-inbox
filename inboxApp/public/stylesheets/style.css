@@ -30,10 +30,37 @@ button.btn.btn-default.navbar-left {
   background-color: #fff;
 }
 
-/*tr.message{
-  border-bottom:1px solid gray;
-}*/
 
 table.table tr{
-  border-bottom:1px solid gray;
+  border-bottom:1px solid #d7d7d7;
 }
+
+.label-as-badge {
+  border-radius: 1em;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
