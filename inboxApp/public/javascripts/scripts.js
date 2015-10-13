@@ -12,14 +12,14 @@ $( document ).ready(function() {
   },
   {
     "id": 2,
-    "subject": "Banksy Truffaut PBR tilde Thundercats. Chambray letterpress slow-carb dreamcatcher. Literally farm-to-table church-key, before they sold out disrupt meggings meh",
+    "subject": "Banksy Truffaut PBR tilde Thundercats. Chambray letterpress slow-carb dreamcatcher. Literally farm-to-table church-key, before they sold out disrupt",
     "read": false,
     "starred": true,
     "labels": []
   },
   {
     "id": 3,
-    "subject": "Forage ennui squid hella stumptown yr, iPhone flexitarian letterpress Brooklyn semiotics. Echo Park messenger bag sartorial listicle umami. Marfa XOXO +1 small batch Blue Bottle",
+    "subject": "Forage ennui squid hella stumptown yr, iPhone flexitarian letterpress Brooklyn semiotics. Echo Park messenger bag sartorial listicle umami. Marfa XOXO +1 small",
     "read": false,
     "starred": true,
     "labels": []
@@ -196,7 +196,7 @@ var labels = {
     Personal: 'label-warning',
   }
 
-$('ul.dropdown-menu > li').on('click', function() {
+$('ul.dropdown-menu.add-label > li').on('click', function() {
   var $selected = $("input.message-checkbox[type=checkbox]:checked");
   var $message = $selected.closest('.message');
   var label = $(this).find('a').text(); 
@@ -219,7 +219,7 @@ $('ul.dropdown-menu > li').on('click', function() {
 
   $('#createLabel').on('click', function() {
     var labelName = $('#new-label').val();
-    $('.add-label').append('<li class="custom-label"><a href="#">'+ labelName +'</a></li>');
+    $('.add-label, .remove-label').append('<li class="custom-label"><a href="#">'+ labelName +'</a></li>');
     labels[labelName] = 'label-default';
     console.log(labels)
     if (!$message.hasClass(labelName)) {
@@ -234,9 +234,23 @@ $('ul.dropdown-menu > li').on('click', function() {
   });
 });
 
-$('.custom-label').on('click', function() {
-  console.log('test')
-})
+// $('.custom-label').on('click', function() {
+//   console.log('test')
+// })
+
+//remove label
+
+$('ul.dropdown-menu.remove-label > li').on('click', function() {
+  var $selected = $("input.message-checkbox[type=checkbox]:checked");
+  var $message = $selected.closest('.message');
+  var label = $(this).find('a').text(); 
+  if($message.hasClass(label)){
+    $message.find('span.'+labels[label]).remove();
+    $message.removeClass('selected');    
+    $selected.prop('checked', false);
+  }
+});
+
 
 
 });
