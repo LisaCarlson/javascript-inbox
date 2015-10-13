@@ -41,11 +41,17 @@ table.table tr{
   margin-right: 3px;
 }
 
+.message-cell-check, .message-cell-star {
+  width: 40px;
+}
 
+.message-cell-check {
+  padding-left: 30px !important;
+}
 
-
-
-
+.message-cell-star {
+  padding-left: 20px !important;
+}
 
 
 

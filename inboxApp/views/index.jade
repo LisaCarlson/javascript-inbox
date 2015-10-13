@@ -22,12 +22,14 @@ block content
                 | Apply Label 
                 span.caret
               ul.dropdown-menu
-                li(id='dev')
+                li
                   a(href='#') Dev
-                li(id='important')
+                li
                   a(href='#') Important
-                li(id='personal')
+                li
                   a(href='#') Personal
+                li
+                  a(class='data-toggle="modal" data-target="#newLabelModal"' id='create-label') Create New Label
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
                 | Remove Label 
@@ -52,44 +54,21 @@ block content
               a(href='#')
                 span(class="badge" id="message-num") 
                 |   unread messages
-    table.table
-      tr.message
-        td
-          input(type="checkbox" class="message-checkbox")  
-        td(style="width: 30px;") 
-          i(class="fa fa-star-o")
-        td Banksy dreamcatcher ennui, tattooed selvage DIY kale chips cray sriracha street art. Kale chips cornhole cray heirloom Wes Anderson.          
-      tr.message
-        td
-          input(type="checkbox" class="message-checkbox")
-        td
-          i(class="fa fa-star-o")
-        td Gastropub kitsch plaid, pour-over bespoke sriracha photo booth. Godard master cleanse Etsy sustainable ugh gentrify. Kitsch meggings yr, raw
-      tr.message
-        td 
-          input(type="checkbox" class="message-checkbox")
-        td
-          i(class="fa fa-star-o")
-        td denim Blue Bottle narwhal Marfa leggings tattooed. Literally lumbersexual Bushwick pop-up, +1 cliche ethical selvage roof party leggings mustache
-      tr.message
-        td(style="width: 30px;")
-          input(type="checkbox" class="message-checkbox")  
-        td(style="width: 30px;") 
-          i(class="fa fa-star-o")
-        td  Pinterest scenester, post-ironic squid selfies. Small batch disrupt cray, Schlitz flannel normcore tousled Williamsburg Bushwick polaroid tote bag         
-      tr.message
-        td
-          input(type="checkbox" class="message-checkbox")
-        td
-          i(class="fa fa-star-o")
-        td Locavore crucifix messenger bag organic. Post-ironic health goth sustainable mixtape dreamcatcher Schlitz fingerstache. Shoreditch keffiyeh craft beer
-      tr.message
-        td 
-          input(type="checkbox" class="message-checkbox")
-        td
-          i(class="fa fa-star-o")
-        td Dreamcatcher letterpress kitsch stumptown Banksy, craft beer hoodie forage fap typewriter cardigan. Brooklyn mixtape Shoreditch pour-over paleo, trust fund tofu 
-
+    table#messages.table
+      tbody
+    #newLabelModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='newLabelModalLabel')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4#newLabelModalLabel.modal-title Create New Label
+          .modal-body
+            label Label Name
+            input(id='new-label').form-control
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+            button.btn.btn-success(id="createLabel" type='button') Create Label
 
 
 
