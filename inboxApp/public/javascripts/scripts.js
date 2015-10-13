@@ -32,39 +32,35 @@ $( document ).ready(function() {
     "labels": []
   }
 ];
-  var unreadMessages = 0;
+  var unreadMessages = messages.length;
   renderMessages(messages);
-
-  // $('button').prop('disabled', true);
-  // $('.dropdown').addClass('disabled');
-  // $('.message').each(function(index) {
-  //   $(this).addClass('unread');
-  //   unreadMessages += 1;
-  // });
-
-
   messageNumCheck();
-  $( "#multiselect" ).on( "click", function(){    
+  if(localStorage.getItem('multi') == 'selected'){
+    $('#multiselect').prop('checked', true);  
+  }
+
+  $('#multiselect').on('click', function() {
     var $messageRow = $('.message');
-    $messageRow.each(function() {
-      localStorage.setItem($(this).attr('data-id'), 'selected');
-      localStorage.setItem($('#multiselect').attr('data-id'), 'selected');
-    });
-
-    $(".message").toggleClass('selected');
-
-    if( $(".message").hasClass('selected') ) {
+    if($messageRow.hasClass('selected')) {
       $('input[type=checkbox]').each(function() {
-        $(this).prop( "checked", true);  
-        $('button').prop('disabled', false);  
+        $(this).prop( "checked", false);
+        $messageRow.removeClass('selected'); 
       });
+      $messageRow.each(function() {
+        localStorage.setItem($(this).attr('data-id'), 'unselected');
+      });
+      localStorage.setItem($('#multiselect').attr('data-id'), 'unselected');
     } else {
       $('input[type=checkbox]').each(function() {
-        $(this).prop( "checked", false);  
-        $('button').prop('disabled', true);
-        $('.dropdown').addClass('disabled');  
+        $(this).prop( "checked", true);
+        $messageRow.addClass('selected');
       });
-    }   
+      $messageRow.each(function() {
+        localStorage.setItem($(this).attr('data-id'), 'selected');
+      });
+      localStorage.setItem($('#multiselect').attr('data-id'), 'selected');
+    }
+
   });
 
   $('input[type=checkbox]').on('click', function() { 
@@ -152,7 +148,7 @@ function messageNumCheck() {
   if($selected.length > 0) {
     $('button').prop('disabled', false);
   }
-  else if (unreadMessages === 1) {
+  if (unreadMessages === 1) {
     $('#message-num').closest('a').html('<span id="message-num" class="badge">1</span>' + '  unread message');
   }
   else if (unreadMessages === 0 || unreadMessages > 1 ) {
@@ -221,7 +217,6 @@ $('ul.dropdown-menu.add-label > li').on('click', function() {
     var labelName = $('#new-label').val();
     $('.add-label, .remove-label').append('<li class="custom-label"><a href="#">'+ labelName +'</a></li>');
     labels[labelName] = 'label-default';
-    console.log(labels)
     if (!$message.hasClass(labelName)) {
       $selected.closest('td').next('td').next('td').prepend('<span class="label label-default label-as-badge">'+ labelName +'</span>');
     }
