@@ -2,7 +2,7 @@ $( document ).ready(function() {
   var messages = [
   {
     "id": 1,
-    "subject": "connecting the systems won't do anything",
+    "subject": "Helvetica messenger bag Portland iPhone plaid ugh DIY aesthetic small batch. Typewriter dreamcatcher squid Etsy blog kale chips hella, cardigan distillery.",
     "read": true,
     "starred": false,
     "labels": [
@@ -12,21 +12,21 @@ $( document ).ready(function() {
   },
   {
     "id": 2,
-    "subject": "We need to index the mobile PCI bus",
+    "subject": "Banksy Truffaut PBR tilde Thundercats. Chambray letterpress slow-carb dreamcatcher. Literally farm-to-table church-key, before they sold out disrupt meggings meh",
     "read": false,
     "starred": true,
     "labels": []
   },
   {
     "id": 3,
-    "subject": "We need to index the mobile PCI bus",
+    "subject": "Forage ennui squid hella stumptown yr, iPhone flexitarian letterpress Brooklyn semiotics. Echo Park messenger bag sartorial listicle umami. Marfa XOXO +1 small batch Blue Bottle",
     "read": false,
     "starred": true,
     "labels": []
   },
   {
     "id": 4,
-    "subject": "We need to index the mobile PCI bus",
+    "subject": "Disrupt Thundercats quinoa umami artisan keytar. Artisan four dollar toast kogi whatever tattooed, meditation keytar Portland brunch pork belly",
     "read": false,
     "starred": true,
     "labels": []
@@ -48,6 +48,7 @@ $( document ).ready(function() {
     var $messageRow = $('.message');
     $messageRow.each(function() {
       localStorage.setItem($(this).attr('data-id'), 'selected');
+      localStorage.setItem($('#multiselect').attr('data-id'), 'selected');
     });
 
     $(".message").toggleClass('selected');
@@ -68,8 +69,14 @@ $( document ).ready(function() {
 
   $('input[type=checkbox]').on('click', function() { 
     var $messageRow = $(this).closest('.message');
-    $messageRow.toggleClass('selected');
-    localStorage.setItem($messageRow.attr('data-id'), 'selected');
+    if ($messageRow.hasClass('selected')) {
+      $messageRow.removeClass('selected');
+      localStorage.setItem($messageRow.attr('data-id'), 'unselected');
+    }
+    else {
+      $messageRow.addClass('selected');
+      localStorage.setItem($messageRow.attr('data-id'), 'selected');
+    }
     runCheck();  
   });
 
@@ -88,6 +95,7 @@ $( document ).ready(function() {
       var $message = $(this).closest('.message');
       $message.removeClass('selected');
       localStorage.setItem($message.attr('data-id'), 'unselected');
+      localStorage.setItem($('#multiselect').attr('data-id'), 'unselected');
       if (!$message.hasClass('read')) {    
         $message.removeClass('unread').addClass('read');
         unreadMessages -= 1;
@@ -101,7 +109,9 @@ $( document ).ready(function() {
     $selected.each(function() {
       var $message = $(this).closest('.message');
       $message.removeClass('selected');
-      localStorage.setItem($message.attr('data-id'), 'unselected');    
+      localStorage.setItem($message.attr('data-id'), 'unselected');
+      localStorage.setItem($('#multiselect').attr('data-id'), 'unselected');
+    
       if (!$message.hasClass('unread')) {
         $message.removeClass('read').addClass('unread');
         unreadMessages += 1;
@@ -180,16 +190,16 @@ function runCheck() {
 }
 
 //applying labels
+var labels = {
+    Dev: 'label-success',
+    Important: 'label-danger',
+    Personal: 'label-warning',
+  }
 
 $('ul.dropdown-menu > li').on('click', function() {
   var $selected = $("input.message-checkbox[type=checkbox]:checked");
   var $message = $selected.closest('.message');
   var label = $(this).find('a').text(); 
-  var labels = {
-    Dev: 'label-success',
-    Important: 'label-danger',
-    Personal: 'label-warning',
-  }
   var keys = Object.keys(labels);
   for (var x in keys) {
     if (label == keys[x]) {
@@ -208,21 +218,26 @@ $('ul.dropdown-menu > li').on('click', function() {
   }
 
   $('#createLabel').on('click', function() {
-    var $selected = $("input.message-checkbox[type=checkbox]:checked");
-    var $message = $selected.closest('.message');
     var labelName = $('#new-label').val();
-    $('#create-label').closest('li').prepend('<li><a href="#">'+ labelName +'</a></li>');
+    $('.add-label').append('<li class="custom-label"><a href="#">'+ labelName +'</a></li>');
     labels[labelName] = 'label-default';
+    console.log(labels)
     if (!$message.hasClass(labelName)) {
-      var $target = $selected.closest('td').next('td').next('td').prepend('<span class="label label-default label-as-badge">'+ labelName +'</span>');
+      $selected.closest('td').next('td').next('td').prepend('<span class="label label-default label-as-badge">'+ labelName +'</span>');
     }
     $selected.each(function() {
       $message.addClass(labelName);
       $message.removeClass('selected');    
       $selected.prop('checked', false);
     });
+    $('#newLabelModal').modal('hide');
   });
 });
+
+$('.custom-label').on('click', function() {
+  console.log('test')
+})
+
 
 });
 

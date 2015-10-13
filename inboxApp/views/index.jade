@@ -11,7 +11,7 @@ block content
             span.icon-bar
           form.navbar-form.navbar-left
             .checkbox.navbar-btn
-              input(type='checkbox' id='multiselect')
+              input(type='checkbox' id='multiselect' data-id='multi')
           ul.nav.navbar-nav
             button.btn.btn-default.navbar-left(type='button' style="margin-top: 7px; margin-right: 7px;" id="read-button") Mark As Read
             button.btn.btn-default.navbar-left(type='button' style="margin-top: 7px;" id="unread-button") Mark As Unread
@@ -21,7 +21,7 @@ block content
               a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
                 | Apply Label 
                 span.caret
-              ul.dropdown-menu
+              ul.dropdown-menu.add-label
                 li
                   a(href='#') Dev
                 li
