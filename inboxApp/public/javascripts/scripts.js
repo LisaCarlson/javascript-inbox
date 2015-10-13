@@ -30,13 +30,54 @@ $( document ).ready(function() {
     "read": false,
     "starred": true,
     "labels": []
+  },
+  {
+    "id": 5,
+    "subject": "Helvetica messenger bag Portland iPhone plaid ugh DIY aesthetic small batch. Typewriter dreamcatcher squid Etsy blog kale chips hella, cardigan distillery.",
+    "read": true,
+    "starred": false,
+    "labels": [
+      "dev",
+      "personal"
+    ]
+  },
+  {
+    "id": 6,
+    "subject": "Banksy Truffaut PBR tilde Thundercats. Chambray letterpress slow-carb dreamcatcher. Literally farm-to-table church-key, before they sold out disrupt",
+    "read": false,
+    "starred": true,
+    "labels": []
+  },
+  {
+    "id": 7,
+    "subject": "Forage ennui squid hella stumptown yr, iPhone flexitarian letterpress Brooklyn semiotics. Echo Park messenger bag sartorial listicle umami. Marfa XOXO +1 small",
+    "read": false,
+    "starred": true,
+    "labels": []
+  },
+  {
+    "id": 8,
+    "subject": "Disrupt Thundercats quinoa umami artisan keytar. Artisan four dollar toast kogi whatever tattooed, meditation keytar Portland brunch pork belly",
+    "read": false,
+    "starred": true,
+    "labels": []
   }
 ];
   var unreadMessages = messages.length;
   renderMessages(messages);
   messageNumCheck();
+
+  $('.message').each(function() {
+    $(this).addClass('unread');
+  });
+
   if(localStorage.getItem('multi') == 'selected'){
     $('#multiselect').prop('checked', true);  
+  }
+  var $selected = $("input.message-checkbox[type=checkbox]:checked");
+  if ($selected.length) {
+    $('button').prop('disabled', false);
+    $('.dropdown').removeClass('disabled');
   }
 
   $('#multiselect').on('click', function() {
@@ -99,7 +140,11 @@ $( document ).ready(function() {
     });
     messageNumCheck();
     $selected.prop('checked', false);
+    $('#multiselect').prop('indeterminate', false);
+    $('#multiselect').prop('checked', false);
+
   });
+  
   $('#unread-button').on('click', function() {
     var $selected = $("input.message-checkbox[type=checkbox]:checked");
     $selected.each(function() {
@@ -107,7 +152,6 @@ $( document ).ready(function() {
       $message.removeClass('selected');
       localStorage.setItem($message.attr('data-id'), 'unselected');
       localStorage.setItem($('#multiselect').attr('data-id'), 'unselected');
-    
       if (!$message.hasClass('unread')) {
         $message.removeClass('read').addClass('unread');
         unreadMessages += 1;
@@ -115,6 +159,8 @@ $( document ).ready(function() {
     });
     messageNumCheck();
     $selected.prop('checked', false);
+    $('#multiselect').prop('indeterminate', false);
+    $('#multiselect').prop('checked', false);
   });
 
   $('#delete').on('click', function(){
@@ -209,6 +255,8 @@ $('ul.dropdown-menu.add-label > li').on('click', function() {
     $message.removeClass('selected');    
     $selected.prop('checked', false);
   });
+  $('#multiselect').prop('checked', false);
+  $('#multiselect').prop('indeterminate', false);
   if (label == 'Create New Label') {
     $('#newLabelModal').modal('show');
   }
@@ -229,9 +277,30 @@ $('ul.dropdown-menu.add-label > li').on('click', function() {
   });
 });
 
-// $('.custom-label').on('click', function() {
-//   console.log('test')
-// })
+//apply custom label
+
+$('.add-label').on('click', '.custom-label', function() {
+  var $selected = $("input.message-checkbox[type=checkbox]:checked");
+  var $message = $selected.closest('.message');
+  var label = $(this).find('a').text(); 
+  var keys = Object.keys(labels);
+  for (var x in keys) {
+    if (label == keys[x]) {
+      if (!$message.hasClass(label)) {
+        var $target = $selected.closest('td').next('td').next('td').prepend('<span class="label '+ labels[label] +' label-as-badge">'+ label +'</span>');
+      }
+    }
+  }
+  $selected.each(function() {
+    $message.addClass(label);
+    $message.removeClass('selected');    
+    $selected.prop('checked', false);
+  });
+  $('#multiselect').prop('checked', false);
+  $('#multiselect').prop('indeterminate', false);
+});
+
+
 
 //remove label
 
@@ -244,8 +313,25 @@ $('ul.dropdown-menu.remove-label > li').on('click', function() {
     $message.removeClass('selected');    
     $selected.prop('checked', false);
   }
+  $('#multiselect').prop('checked', false);
+  $('#multiselect').prop('indeterminate', false);
+
 });
 
+//remove custom label
+
+$('.remove-label').on('click', '.custom-label', function() {
+  var $selected = $("input.message-checkbox[type=checkbox]:checked");
+  var $message = $selected.closest('.message');
+  var label = $(this).find('a').text(); 
+  if($message.hasClass(label)){
+    $message.find('span.'+labels[label]).remove();
+    $message.removeClass('selected');    
+    $selected.prop('checked', false);
+  }
+  $('#multiselect').prop('checked', false);
+  $('#multiselect').prop('indeterminate', false);
+});
 
 
 });
